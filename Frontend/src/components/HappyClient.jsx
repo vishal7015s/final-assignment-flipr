@@ -46,6 +46,171 @@
 //     </section>
 //   );
 // }
+
+
+
+// import React, { useEffect, useState, useRef } from "react";
+// import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+// export default function HappyClients() {
+//   const [clients, setClients] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [isPaused, setIsPaused] = useState(false);
+//   const sliderRef = useRef(null);
+//   const intervalRef = useRef(null);
+
+//   useEffect(() => {
+//     fetch('https://final-assignment-flipr.onrender.com/api/clients')
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setClients(data.data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         console.error('Error fetching clients:', err);
+//         setLoading(false);
+//       });
+//   }, []);
+
+//   // Auto-slide functionality
+//   useEffect(() => {
+//     if (clients.length > 3 && !isPaused) {
+//       intervalRef.current = setInterval(() => {
+//         setCurrentIndex(prev => (prev + 1) % (clients.length - 2));
+//       }, 5000);
+//     }
+//     return () => clearInterval(intervalRef.current);
+//   }, [clients.length, isPaused]);
+
+//   const goToSlide = (index) => {
+//     setCurrentIndex(index);
+//     resetInterval();
+//   };
+
+//   const goToPrev = () => {
+//     setCurrentIndex(prev => (prev - 1 + clients.length) % (clients.length - 2));
+//     resetInterval();
+//   };
+
+//   const goToNext = () => {
+//     setCurrentIndex(prev => (prev + 1) % (clients.length - 2));
+//     resetInterval();
+//   };
+
+//   const resetInterval = () => {
+//     clearInterval(intervalRef.current);
+//     intervalRef.current = setInterval(() => {
+//       setCurrentIndex(prev => (prev + 1) % (clients.length - 2));
+//     }, 5000);
+//   };
+
+//   return (
+//     <section id="happyclients" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-16 bg-gradient-to-b from-white to-blue-50">
+//       <div className="max-w-7xl mx-auto">
+//         <div className="text-center mb-12">
+//           <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-4">
+//             What Our Clients Say
+//           </h2>
+//           <p className="text-lg text-blue-600 max-w-2xl mx-auto">
+//             Don't just take our word for it - hear from our satisfied clients
+//           </p>
+//         </div>
+
+//         {loading ? (
+//           <div className="flex justify-center items-center h-64">
+//             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+//           </div>
+//         ) : (
+//           <div 
+//             className="relative overflow-hidden"
+//             onMouseEnter={() => setIsPaused(true)}
+//             onMouseLeave={() => setIsPaused(false)}
+//             ref={sliderRef}
+//           >
+//             {/* Slider container */}
+//             <div className="whitespace-nowrap transition-transform duration-700 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+//               style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+//             >
+//               {clients.map((client) => (
+//                 <div 
+//                   key={client._id}
+//                   className="inline-block whitespace-normal align-top w-1/3 px-4"
+//                 >
+//                   <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 h-full">
+//                     <div className="flex items-center mb-6">
+//                       <img
+//                         src={client.image}
+//                         alt={client.name}
+//                         className="w-16 h-16 rounded-full object-cover border-4 border-blue-100"
+//                       />
+//                       <div className="ml-4">
+//                         <h3 className="font-bold text-blue-800">{client.name}</h3>
+//                         <p className="text-sm text-blue-600">{client.designation}</p>
+//                       </div>
+//                     </div>
+//                     <FaQuoteLeft className="text-blue-200 text-2xl mb-4" />
+//                     <p className="text-gray-600 mb-6 flex-grow">{client.description}</p>
+//                     <div className="flex items-center">
+//                       {[...Array(5)].map((_, i) => (
+//                         <svg
+//                           key={i}
+//                           className={`w-5 h-5 ${i < 4 ? 'text-yellow-400' : 'text-gray-300'}`}
+//                           fill="currentColor"
+//                           viewBox="0 0 20 20"
+//                         >
+//                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//                         </svg>
+//                       ))}
+//                       <span className="ml-2 text-sm text-gray-500">4.0/5.0</span>
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+
+//             {/* Navigation arrows */}
+//             {clients.length > 3 && (
+//               <>
+//                 <button 
+//                   onClick={goToPrev}
+//                   className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-blue-50 transition-colors z-10"
+//                   aria-label="Previous testimonial"
+//                 >
+//                   <FaChevronLeft className="text-blue-600 text-xl" />
+//                 </button>
+//                 <button 
+//                   onClick={goToNext}
+//                   className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-blue-50 transition-colors z-10"
+//                   aria-label="Next testimonial"
+//                 >
+//                   <FaChevronRight className="text-blue-600 text-xl" />
+//                 </button>
+//               </>
+//             )}
+
+//             {/* Indicator dots */}
+//             {clients.length > 3 && (
+//               <div className="flex justify-center mt-8 space-x-2">
+//                 {Array.from({ length: Math.ceil(clients.length / 3) }).map((_, index) => (
+//                   <button
+//                     key={index}
+//                     onClick={() => goToSlide(index * 3)}
+//                     className={`w-3 h-3 rounded-full transition-all ${currentIndex >= index * 3 && currentIndex < (index + 1) * 3 ? 'bg-blue-600 w-6' : 'bg-gray-300'}`}
+//                     aria-label={`Go to testimonial group ${index + 1}`}
+//                   />
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+//         )}
+//       </div>
+//     </section>
+//   );
+// }
+
+
+
 import React, { useEffect, useState, useRef } from "react";
 import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -56,6 +221,23 @@ export default function HappyClients() {
   const [isPaused, setIsPaused] = useState(false);
   const sliderRef = useRef(null);
   const intervalRef = useRef(null);
+  const [slidesToShow, setSlidesToShow] = useState(1); // Start with 1 for mobile first
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setSlidesToShow(1);
+      } else if (window.innerWidth < 1024) {
+        setSlidesToShow(2);
+      } else {
+        setSlidesToShow(3);
+      }
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetch('https://final-assignment-flipr.onrender.com/api/clients')
@@ -72,13 +254,13 @@ export default function HappyClients() {
 
   // Auto-slide functionality
   useEffect(() => {
-    if (clients.length > 3 && !isPaused) {
+    if (clients.length > slidesToShow && !isPaused) {
       intervalRef.current = setInterval(() => {
-        setCurrentIndex(prev => (prev + 1) % (clients.length - 2));
+        setCurrentIndex(prev => (prev + 1) % (clients.length - slidesToShow + 1));
       }, 5000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [clients.length, isPaused]);
+  }, [clients.length, isPaused, slidesToShow]);
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
@@ -86,30 +268,32 @@ export default function HappyClients() {
   };
 
   const goToPrev = () => {
-    setCurrentIndex(prev => (prev - 1 + clients.length) % (clients.length - 2));
+    setCurrentIndex(prev => (prev - 1 + clients.length) % (clients.length - slidesToShow + 1));
     resetInterval();
   };
 
   const goToNext = () => {
-    setCurrentIndex(prev => (prev + 1) % (clients.length - 2));
+    setCurrentIndex(prev => (prev + 1) % (clients.length - slidesToShow + 1));
     resetInterval();
   };
 
   const resetInterval = () => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      setCurrentIndex(prev => (prev + 1) % (clients.length - 2));
+      setCurrentIndex(prev => (prev + 1) % (clients.length - slidesToShow + 1));
     }, 5000);
   };
 
+  const slideWidth = 100 / slidesToShow;
+
   return (
-    <section id="happyclients" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-16 bg-gradient-to-b from-white to-blue-50">
+    <section id="happyclients" className="py-12 px-4 sm:py-16 sm:px-6 lg:px-16 bg-gradient-to-b from-white to-blue-50">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-700 mb-3 sm:mb-4">
             What Our Clients Say
           </h2>
-          <p className="text-lg text-blue-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-blue-600 max-w-2xl mx-auto">
             Don't just take our word for it - hear from our satisfied clients
           </p>
         </div>
@@ -126,74 +310,75 @@ export default function HappyClients() {
             ref={sliderRef}
           >
             {/* Slider container */}
-            <div className="whitespace-nowrap transition-transform duration-700 ease-[cubic-bezier(0.645,0.045,0.355,1)]"
-              style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+            <div className="whitespace-nowrap transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * slideWidth}%)` }}
             >
               {clients.map((client) => (
                 <div 
                   key={client._id}
-                  className="inline-block whitespace-normal align-top w-1/3 px-4"
+                  className="inline-block whitespace-normal align-top px-2 sm:px-4"
+                  style={{ width: `${slideWidth}%` }}
                 >
-                  <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 h-full">
-                    <div className="flex items-center mb-6">
+                  <div className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-4 sm:p-6 md:p-8 h-full mx-1">
+                    <div className="flex items-center mb-4 sm:mb-6">
                       <img
                         src={client.image}
                         alt={client.name}
-                        className="w-16 h-16 rounded-full object-cover border-4 border-blue-100"
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 sm:border-4 border-blue-100"
                       />
-                      <div className="ml-4">
-                        <h3 className="font-bold text-blue-800">{client.name}</h3>
-                        <p className="text-sm text-blue-600">{client.designation}</p>
+                      <div className="ml-3 sm:ml-4">
+                        <h3 className="font-bold text-blue-800 text-sm sm:text-base">{client.name}</h3>
+                        <p className="text-xs sm:text-sm text-blue-600">{client.designation}</p>
                       </div>
                     </div>
-                    <FaQuoteLeft className="text-blue-200 text-2xl mb-4" />
-                    <p className="text-gray-600 mb-6 flex-grow">{client.description}</p>
+                    <FaQuoteLeft className="text-blue-200 text-xl sm:text-2xl mb-3 sm:mb-4" />
+                    <p className="text-gray-600 text-xs sm:text-sm md:text-base mb-4 sm:mb-6">{client.description}</p>
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
                         <svg
                           key={i}
-                          className={`w-5 h-5 ${i < 4 ? 'text-yellow-400' : 'text-gray-300'}`}
+                          className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 ${i < 4 ? 'text-yellow-400' : 'text-gray-300'}`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
-                      <span className="ml-2 text-sm text-gray-500">4.0/5.0</span>
+                      <span className="ml-1 sm:ml-2 text-xs sm:text-sm text-gray-500">4.0/5.0</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Navigation arrows */}
-            {clients.length > 3 && (
+            {/* Navigation arrows - Always visible on mobile */}
+            {clients.length > slidesToShow && (
               <>
                 <button 
                   onClick={goToPrev}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-blue-50 transition-colors z-10"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-md hover:bg-blue-50 transition-colors z-10"
                   aria-label="Previous testimonial"
                 >
-                  <FaChevronLeft className="text-blue-600 text-xl" />
+                  <FaChevronLeft className="text-blue-600 text-lg sm:text-xl" />
                 </button>
                 <button 
                   onClick={goToNext}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-blue-50 transition-colors z-10"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-md hover:bg-blue-50 transition-colors z-10"
                   aria-label="Next testimonial"
                 >
-                  <FaChevronRight className="text-blue-600 text-xl" />
+                  <FaChevronRight className="text-blue-600 text-lg sm:text-xl" />
                 </button>
               </>
             )}
 
-            {/* Indicator dots */}
-            {clients.length > 3 && (
-              <div className="flex justify-center mt-8 space-x-2">
-                {Array.from({ length: Math.ceil(clients.length / 3) }).map((_, index) => (
+            {/* Indicator dots - More visible on mobile */}
+            {clients.length > slidesToShow && (
+              <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
+                {Array.from({ length: Math.ceil(clients.length / slidesToShow) }).map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => goToSlide(index * 3)}
-                    className={`w-3 h-3 rounded-full transition-all ${currentIndex >= index * 3 && currentIndex < (index + 1) * 3 ? 'bg-blue-600 w-6' : 'bg-gray-300'}`}
+                    onClick={() => goToSlide(index * slidesToShow)}
+                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all ${currentIndex >= index * slidesToShow && currentIndex < (index + 1) * slidesToShow ? 'bg-blue-600 w-4 sm:w-6' : 'bg-gray-300'}`}
                     aria-label={`Go to testimonial group ${index + 1}`}
                   />
                 ))}
