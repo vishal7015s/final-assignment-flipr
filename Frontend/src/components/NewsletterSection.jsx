@@ -9,7 +9,7 @@ const NewsletterSection = () => {
     e.preventDefault();
     setLoading(true);
 
-    fetch('http://localhost:4000/api/newsletter/', {
+    fetch(' https://final-assignment-flipr.onrender.com/api/newsletter/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),

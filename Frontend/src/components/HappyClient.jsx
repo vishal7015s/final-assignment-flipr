@@ -45,7 +45,7 @@ export default function HappyClients() {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      fetch('http://localhost:4000/api/clients')
+      fetch(' https://final-assignment-flipr.onrender.com/api/clients')
         .then((res) => res.json())
         .then((data) => {
           setClients(data.data);

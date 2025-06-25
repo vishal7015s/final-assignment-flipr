@@ -54,7 +54,7 @@ export default function OurProjects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/projects')
+    fetch(' https://final-assignment-flipr.onrender.com/api/projects')
       .then((res) => res.json())
       .then((data) => {
         setProjects(data.data);

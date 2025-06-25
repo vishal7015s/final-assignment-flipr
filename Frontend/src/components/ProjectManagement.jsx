@@ -28,7 +28,7 @@ const ProjectManagement = () => {
     data.append('pimage', formData.image);
 
     try {
-      const response = await fetch('http://localhost:4000/api/createProject', {
+      const response = await fetch(' https://final-assignment-flipr.onrender.com/api/createProject', {
         method: 'POST',
         body: data,
       });

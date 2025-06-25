@@ -30,7 +30,7 @@ const ClientManagement = () => {
     data.append('cimage', formData.image);
 
     try {
-      const response = await fetch('http://localhost:4000/api/client', {
+      const response = await fetch(' https://final-assignment-flipr.onrender.com/api/client', {
         method: 'POST',
         body: data,
       });

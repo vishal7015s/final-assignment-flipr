@@ -151,7 +151,7 @@ const ContactForm = () => {
     setMessage(''); // Clear previous message
 
     try {
-      const response = await fetch('http://localhost:4000/api/contact', { // Removed trailing slash
+      const response = await fetch(' https://final-assignment-flipr.onrender.com/api/contact', { // Removed trailing slash
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

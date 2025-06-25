@@ -5,7 +5,7 @@ const ContactDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/contact')
+    fetch(' https://final-assignment-flipr.onrender.com/api/contact')
       .then((res) => res.json())
       .then((data) => {
         setContacts(data.data || []);

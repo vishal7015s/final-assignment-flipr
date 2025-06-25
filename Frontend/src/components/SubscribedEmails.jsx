@@ -5,7 +5,7 @@ const SubscribedEmails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/newsletters')
+    fetch(' https://final-assignment-flipr.onrender.com/api/newsletters')
       .then((res) => res.json())
       .then((data) => {
         setEmails(data.data || []);
